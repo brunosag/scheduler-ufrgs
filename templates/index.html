@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+			crossorigin="anonymous"
+		></script>
+		<title>Scheduler UFRGS</title>
+	</head>
+
+	<body>
+		<h1>Scheduler UFRGS</h1>
+
+		<!-- Cadeiras Form -->
+		<h2>Cadeiras</h2>
+		<form id="cadeiras-form">
+			<label for="name">Nome da cadeira:</label>
+			<input name="name" type="text" required />
+			<input value="Adicionar" type="submit" />
+		</form>
+
+		<!-- Cadeiras Table -->
+		<table id="cadeiras-table"></table>
+
+		<!-- Turmas Form -->
+		<h2>Turmas</h2>
+		<form id="turmas-form">
+			<label for="cadeira">Cadeira:</label>
+			<select name="cadeira">
+				<option value="1">ÁLGEBRA LINEAR</option>
+				<option value="2">FÍSICA I</option>
+				<option value="3">ESTRUTURAS</option>
+			</select>
+			<label for="horario">Horário:</label>
+			<select id="horario-options" name="horario"></select>
+			<div id="dias-options">
+				<label>Dias:</label>
+			</div>
+			<label for="turma">Turma:</label>
+			<input type="text" name="turma" />
+			<input type="submit" value="Adicionar" />
+		</form>
+
+		<!-- Turmas Table -->
+		<table>
+			<thead>
+				<tr>
+					<th>Cadeira</th>
+					<th>Horário</th>
+					<th>Turma</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ÁLGEBRA LINEAR</td>
+					<td>10:30</td>
+					<td>A1</td>
+				</tr>
+				<tr>
+					<td>ESTRUTURAS</td>
+					<td>13:30</td>
+					<td>A</td>
+				</tr>
+				<tr>
+					<td>FÍSICA I</td>
+					<td>15:30</td>
+					<td>B</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Grade Options -->
+		<h2>Grade de Horários</h2>
+		<table>
+			<tr>
+				<td>ÁLGEBRA LINEAR</td>
+				<td>
+					<select name="1">
+						<option value="1">A1</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>FÍSICA I</td>
+				<td>
+					<select name="1">
+						<option value="1">A</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>ESTRUTURAS</td>
+				<td>
+					<select name="1">
+						<option value="1">B</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<!-- Grade Table -->
+		<table>
+			<thead>
+				<tr>
+					<th>Horário</th>
+					<th>Segunda</th>
+					<th>Terça</th>
+					<th>Quarta</th>
+					<th>Quinta</th>
+					<th>Sexta</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>10:30</td>
+					<td></td>
+					<td>ÁLGEBRA LINEAR (A1)</td>
+					<td></td>
+					<td>ÁLGEBRA LINEAR (A1)</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+	<script src="../static/index.js"></script>
+</html>
