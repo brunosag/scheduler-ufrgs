@@ -5,6 +5,7 @@ localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Qui
 // Fill tables and options
 fillCadeirasTable();
 fillTurmasTable();
+fillGradeTable();
 fillDiasOptions();
 fillCadeiraOptions();
 fillHorarioOptions();
@@ -89,6 +90,33 @@ function fillDiasOptions() {
 		container.appendChild(checkbox);
 		container.appendChild(label);
 	}
+}
+
+function fillGradeTable() {
+	const gradeTable = document.querySelector('#grade-table');
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const horarios = JSON.parse(localStorage.getItem('horarios'));
+	const dias = JSON.parse(localStorage.getItem('dias'));
+
+	horarios.forEach((horario) => {
+		let filled = false;
+		turmas.forEach((turma) => {
+			if (turma.horario === horario) {
+				const row = document.createElement('tr');
+				row.innerHTML = filled ? `<td></td>` : `<td>${turma.horario}</td>`;
+				filled = true;
+				row.innerHTML += dias
+					.map((dia) => `<td>${turma.dias.includes(dia) ? turma.cadeira + ` (${turma.turma})` : ''}</td>`)
+					.join('');
+				gradeTable.appendChild(row);
+			}
+		});
+		if (!filled) {
+			const row = document.createElement('tr');
+			row.innerHTML = `<td>${horario}</td>`;
+			gradeTable.appendChild(row);
+		}
+	});
 }
 
 function fillHorarioOptions() {
