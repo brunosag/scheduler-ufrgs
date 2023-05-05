@@ -1,11 +1,12 @@
 // Set fixed horarios and dias
-localStorage.setItem('horarios', JSON.stringify(['8:30', '10:30', '13:30', '15:30', '18:30', '20:30']));
+localStorage.setItem('horarios', JSON.stringify(['8:30', '10:30', '13:30', '15:30', '18:30']));
 localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']));
 
 // Fill tables and options
 fillCadeirasTable();
 fillDiasOptions();
 fillHorarioOptions();
+fillCadeiraOptions();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
@@ -27,9 +28,24 @@ function addToLocalStorageArray(item, arrayName) {
 	}
 }
 
-function fillCadeirasTable() {
-	const cadeirasTable = document.querySelector('#cadeiras-table');
+function fillCadeiraOptions() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+	const container = document.querySelector('#cadeira-options');
+
+	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+	for (const cadeira of cadeiras) {
+		const option = document.createElement('option');
+		option.innerText = cadeira;
+		option.value = cadeira;
+
+		container.appendChild(option);
+	}
+}
+
+function fillCadeirasTable() {
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+	const cadeirasTable = document.querySelector('#cadeiras-table');
 
 	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
 
