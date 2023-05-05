@@ -4,9 +4,10 @@ localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Qui
 
 // Fill tables and options
 fillCadeirasTable();
+fillTurmasTable();
 fillDiasOptions();
-fillHorarioOptions();
 fillCadeiraOptions();
+fillHorarioOptions();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
@@ -16,8 +17,27 @@ cadeirasForm.addEventListener('submit', (e) => {
 	const { value } = cadeirasForm.elements['name'];
 	addToLocalStorageArray(value, 'cadeiras');
 	fillCadeirasTable();
+	fillCadeiraOptions();
 
 	cadeirasForm.reset();
+});
+
+// Handle turmas form
+const turmasForm = document.querySelector('#turmas-form');
+turmasForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+
+	const turma = {
+		cadeira: turmasForm.elements['cadeira'].value,
+		horario: turmasForm.elements['horario'].value,
+		turma: turmasForm.elements['turma'].value,
+		dias: Array.from(document.querySelectorAll('input[name="dias"]:checked')).map((checkbox) => checkbox.value),
+	};
+
+	addToLocalStorageArray(turma, 'turmas');
+	fillTurmasTable();
+
+	turmasForm.reset();
 });
 
 function addToLocalStorageArray(item, arrayName) {
@@ -59,6 +79,7 @@ function fillDiasOptions() {
 	for (const dia of dias) {
 		const checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
+		checkbox.name = 'dias';
 		checkbox.value = dia;
 
 		const label = document.createElement('label');
@@ -80,4 +101,24 @@ function fillHorarioOptions() {
 		optionElement.textContent = horario;
 		container.appendChild(optionElement);
 	}
+}
+
+function fillTurmasTable() {
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const turmasTable = document.querySelector('#turmas-table');
+
+	if (!!turmas.length)
+		turmasTable.innerHTML = `<thead><tr><th>Cadeira</th><th>Horário</th><th>Turma</th><th>Dias</th></tr></thead>`;
+
+	turmas.sort(
+		(a, b) =>
+			a.cadeira.localeCompare(b.cadeira) || a.horario.localeCompare(b.horario) || a.turma.localeCompare(b.turma)
+	);
+
+	turmasTable.innerHTML += turmas
+		.map(
+			(item) =>
+				`<tr><td>${item.cadeira}</td><td>${item.horario}</td><td>${item.turma}</td><td>${item.dias}</td></tr>`
+		)
+		.join('');
 }

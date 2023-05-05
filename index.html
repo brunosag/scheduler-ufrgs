@@ -43,37 +43,12 @@
 				<label>Dias:</label>
 			</div>
 			<label for="turma">Turma:</label>
-			<input type="text" name="turma" />
+			<input type="text" name="turma" required />
 			<input type="submit" value="Adicionar" />
 		</form>
 
 		<!-- Turmas Table -->
-		<table>
-			<thead>
-				<tr>
-					<th>Cadeira</th>
-					<th>Horário</th>
-					<th>Turma</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>ÁLGEBRA LINEAR</td>
-					<td>10:30</td>
-					<td>A1</td>
-				</tr>
-				<tr>
-					<td>ESTRUTURAS</td>
-					<td>13:30</td>
-					<td>A</td>
-				</tr>
-				<tr>
-					<td>FÍSICA I</td>
-					<td>15:30</td>
-					<td>B</td>
-				</tr>
-			</tbody>
-		</table>
+		<table id="turmas-table"></table>
 
 		<!-- Grade Options -->
 		<h2>Grade de Horários</h2>
