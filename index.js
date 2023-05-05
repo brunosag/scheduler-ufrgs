@@ -9,6 +9,7 @@ fillGradeTable();
 fillDiasOptions();
 fillCadeiraOptions();
 fillHorarioOptions();
+fillGradeOptions();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
@@ -90,6 +91,28 @@ function fillDiasOptions() {
 		container.appendChild(checkbox);
 		container.appendChild(label);
 	}
+}
+
+function fillGradeOptions() {
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const gradeOptions = document.querySelector('#grade-options');
+
+	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+	cadeiras.forEach((cadeira) => {
+		const container = document.createElement('select');
+		const filteredTurmas = turmas.filter((turma) => turma.cadeira === cadeira);
+
+		container.innerHTML = filteredTurmas
+			.map((turma) => `<option value="${turma.turma}">${turma.turma}</option>`)
+			.join('');
+
+		const row = document.createElement('tr');
+		row.innerHTML = `<td>${cadeira}</td><td></td>`;
+		row.querySelector('td:last-child').appendChild(container);
+		gradeOptions.appendChild(row);
+	});
 }
 
 function fillGradeTable() {
