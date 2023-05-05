@@ -6,20 +6,26 @@ localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Qui
 fillCadeirasTable();
 fillTurmasTable();
 fillGradeTable();
+hightlightSelectedTurmas();
 fillDiasOptions();
 fillCadeiraOptions();
 fillHorarioOptions();
 fillGradeOptions();
+listenToGradeOptions();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
 cadeirasForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 
-	const { value } = cadeirasForm.elements['name'];
-	addToLocalStorageArray(value, 'cadeiras');
+	const cadeira = {
+		name: cadeirasForm.elements['name'].value,
+		color: getRandomColor(),
+	};
+	addToLocalStorageArray(cadeira, 'cadeiras');
 	fillCadeirasTable();
 	fillCadeiraOptions();
+	fillGradeOptions();
 
 	cadeirasForm.reset();
 });
@@ -38,6 +44,8 @@ turmasForm.addEventListener('submit', (e) => {
 
 	addToLocalStorageArray(turma, 'turmas');
 	fillTurmasTable();
+	fillGradeOptions();
+	fillGradeTable();
 
 	turmasForm.reset();
 });
@@ -54,12 +62,14 @@ function fillCadeiraOptions() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const container = document.querySelector('#cadeira-options');
 
-	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+	cadeiras.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+
+	container.innerHTML = '';
 
 	for (const cadeira of cadeiras) {
 		const option = document.createElement('option');
-		option.innerText = cadeira;
-		option.value = cadeira;
+		option.innerText = cadeira.name;
+		option.value = cadeira.name;
 
 		container.appendChild(option);
 	}
@@ -69,9 +79,9 @@ function fillCadeirasTable() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const cadeirasTable = document.querySelector('#cadeiras-table');
 
-	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+	cadeiras.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 
-	cadeirasTable.innerHTML = cadeiras.map((cadeira) => `<tr><td>${cadeira}</td></tr>`).join('');
+	cadeirasTable.innerHTML = cadeiras.map((cadeira) => `<tr><td>${cadeira.name}</td></tr>`).join('');
 }
 
 function fillDiasOptions() {
@@ -96,23 +106,44 @@ function fillDiasOptions() {
 function fillGradeOptions() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas')) || null;
 	const gradeOptions = document.querySelector('#grade-options');
 
-	cadeiras.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+	cadeiras.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 
-	cadeiras.forEach((cadeira) => {
-		const container = document.createElement('select');
-		const filteredTurmas = turmas.filter((turma) => turma.cadeira === cadeira);
+	gradeOptions.innerHTML = '';
 
-		container.innerHTML = filteredTurmas
-			.map((turma) => `<option value="${turma.turma}">${turma.turma}</option>`)
-			.join('');
+	cadeiras
+		.filter((cadeira) => turmas.some((turma) => turma.cadeira === cadeira.name))
+		.forEach((cadeira) => {
+			const filteredTurmas = turmas.filter((turma) => turma.cadeira === cadeira.name);
+			const select = document.createElement('select');
+			select.name = cadeira.name;
 
-		const row = document.createElement('tr');
-		row.innerHTML = `<td>${cadeira}</td><td></td>`;
-		row.querySelector('td:last-child').appendChild(container);
-		gradeOptions.appendChild(row);
-	});
+			select.innerHTML = filteredTurmas
+				.map((turma) => `<option value="${turma.turma}">${turma.turma}</option>`)
+				.join('');
+
+			const row = document.createElement('tr');
+			row.innerHTML = `<td><span style="color: ${cadeira.color};">${cadeira.name}</span></td><td></td>`;
+			row.querySelector('td:last-child').appendChild(select);
+			gradeOptions.appendChild(row);
+		});
+
+	if (selectedTurmas) {
+		selectedTurmas.forEach((selectedTurma) => {
+			const { cadeira, turma } = selectedTurma;
+			const selectElement = gradeOptions.querySelector(`select[name="${cadeira}"]`);
+			const optionElement = selectElement.querySelector(`option[value="${turma}"]`);
+
+			if (optionElement) {
+				optionElement.selected = true;
+			}
+		});
+	}
+
+	getSelectedTurmas();
+	listenToGradeOptions();
 }
 
 function fillGradeTable() {
@@ -120,6 +151,8 @@ function fillGradeTable() {
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	const horarios = JSON.parse(localStorage.getItem('horarios'));
 	const dias = JSON.parse(localStorage.getItem('dias'));
+
+	gradeTable.innerHTML = '';
 
 	horarios.forEach((horario) => {
 		let filled = false;
@@ -169,7 +202,70 @@ function fillTurmasTable() {
 	turmasTable.innerHTML += turmas
 		.map(
 			(item) =>
-				`<tr><td>${item.cadeira}</td><td>${item.horario}</td><td>${item.turma}</td><td>${item.dias}</td></tr>`
+				`<tr><td>${item.cadeira}</td><td>${item.horario}</td><td>${item.turma}</td><td>${item.dias.join(
+					', '
+				)}</td></tr>`
 		)
 		.join('');
+}
+
+function getRandomColor() {
+	const r = Math.floor(Math.random() * 256);
+	const g = Math.floor(Math.random() * 256);
+	const b = Math.floor(Math.random() * 256);
+
+	const colorCode = `rgb(${r}, ${g}, ${b})`;
+
+	return colorCode;
+}
+
+function getSelectedTurmas() {
+	const selectedTurmas = [];
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+	const gradeOptions = document.querySelector('#grade-options');
+	const filteredCadeiras = cadeiras.filter((cadeira) => turmas.some((turma) => turma.cadeira === cadeira.name));
+
+	for (const cadeira of filteredCadeiras) {
+		const selectedTurma = gradeOptions.querySelector(`select[name="${cadeira.name}"]`).value;
+		selectedTurmas.push({ cadeira: cadeira.name, turma: selectedTurma });
+	}
+
+	localStorage.setItem('selectedTurmas', JSON.stringify(selectedTurmas));
+}
+
+function hightlightSelectedTurmas() {
+	const selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas')) || [];
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+	const gradeTable = document.querySelector('#grade-table');
+
+	cadeiras.forEach((cadeira) => {
+		const matchingCells = Array.from(gradeTable.getElementsByTagName('td')).filter((cell) => {
+			return cell.textContent.includes(`${cadeira.name}`);
+		});
+		matchingCells.forEach((cell) => {
+			cell.style.color = 'rgba(0, 0, 0, 0.25)';
+		});
+	});
+
+	selectedTurmas.forEach((selectedTurma) => {
+		const matchingCadeira = cadeiras.find((cadeira) => cadeira.name === selectedTurma.cadeira);
+		const matchingCells = Array.from(gradeTable.getElementsByTagName('td')).filter((cell) => {
+			return cell.textContent.includes(`${selectedTurma.cadeira} (${selectedTurma.turma})`);
+		});
+		matchingCells.forEach((cell) => {
+			cell.style.color = matchingCadeira.color;
+		});
+	});
+}
+
+function listenToGradeOptions() {
+	const gradeOptions = document.querySelector('#grade-options');
+	const selectElements = gradeOptions.querySelectorAll('select');
+	selectElements.forEach((select) => {
+		select.addEventListener('change', () => {
+			getSelectedTurmas();
+			hightlightSelectedTurmas();
+		});
+	});
 }
