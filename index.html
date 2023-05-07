@@ -18,56 +18,69 @@
 		<title>Scheduler UFRGS</title>
 	</head>
 
-	<body>
-		<h1>Scheduler UFRGS</h1>
-
-		<!-- Cadeiras Form -->
-		<h2>Cadeiras</h2>
-		<form id="cadeiras-form">
-			<label for="name">Nome da cadeira:</label>
-			<input name="name" type="text" required />
-			<input value="Adicionar" type="submit" />
-		</form>
-
-		<!-- Cadeiras Table -->
-		<table id="cadeiras-table"></table>
-
-		<!-- Turmas Form -->
-		<h2>Turmas</h2>
-		<form id="turmas-form">
-			<label for="cadeira">Cadeira:</label>
-			<select id="cadeira-options" name="cadeira"></select>
-			<label for="horario">Horário:</label>
-			<select id="horario-options" name="horario"></select>
-			<div id="dias-options">
-				<label>Dias:</label>
+	<body class="bg-light">
+		<div class="container mt-3 mb-5">
+			<h1 class="mb-4">Scheduler UFRGS</h1>
+			<hr />
+			<!-- Cadeiras Form -->
+			<div class="mb-3">
+				<h2 class="mb-3">Cadeiras</h2>
+				<form id="cadeiras-form">
+					<label for="name" class="me-1">Nome da cadeira:</label>
+					<input name="name" type="text" class="text-uppercase me-1" maxlength="20" required />
+					<input value="Adicionar" type="submit" />
+				</form>
 			</div>
-			<label for="turma">Turma:</label>
-			<input type="text" name="turma" required />
-			<input type="submit" value="Adicionar" />
-		</form>
-
-		<!-- Turmas Table -->
-		<table id="turmas-table"></table>
-
-		<!-- Grade Options -->
-		<h2>Grade de Horários</h2>
-		<table id="grade-options"></table>
-
-		<!-- Grade Table -->
-		<table>
-			<thead>
-				<tr>
-					<th>Horário</th>
-					<th>Segunda</th>
-					<th>Terça</th>
-					<th>Quarta</th>
-					<th>Quinta</th>
-					<th>Sexta</th>
-				</tr>
-			</thead>
-			<tbody id="grade-table"></tbody>
-		</table>
+			<!-- Cadeiras List -->
+			<div class="mb-3">
+				<ul id="cadeiras-list" class="ps-3"></ul>
+			</div>
+			<hr />
+			<!-- Turmas Form -->
+			<div class="mb-3">
+				<h2 class="mb-3">Turmas</h2>
+				<form id="turmas-form">
+					<div class="mb-1">
+						<label for="cadeira" class="me-1">Cadeira:</label>
+						<select id="cadeira-options" name="cadeira" class="me-2"></select>
+						<label for="horario" class="me-1">Horário:</label>
+						<select id="horario-options" name="horario"></select>
+					</div>
+					<div class="mb-1">
+						<div id="dias-options">
+							<label class="me-1">Dias:</label>
+						</div>
+					</div>
+					<label for="turma" class="me-1">Turma:</label>
+					<input type="text" name="turma" class="text-uppercase me-1" maxlength="3" required />
+					<input type="submit" value="Adicionar" />
+				</form>
+			</div>
+			<!-- Turmas Table -->
+			<div class="mb-3">
+				<table id="turmas-table"></table>
+			</div>
+			<hr />
+			<!-- Grade Options -->
+			<div class="mb-3">
+				<h2 class="mb-3">Grade de Horários</h2>
+				<table id="grade-options"></table>
+			</div>
+			<!-- Grade Table -->
+			<table class="text-center">
+				<thead>
+					<tr>
+						<th class="px-2">Horário</th>
+						<th class="px-2">Segunda</th>
+						<th class="px-2">Terça</th>
+						<th class="px-2">Quarta</th>
+						<th class="px-2">Quinta</th>
+						<th class="px-2">Sexta</th>
+					</tr>
+				</thead>
+				<tbody id="grade-table"></tbody>
+			</table>
+		</div>
 	</body>
 	<script src="index.js"></script>
 </html>

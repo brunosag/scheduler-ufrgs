@@ -3,7 +3,7 @@ localStorage.setItem('horarios', JSON.stringify(['8:30', '10:30', '13:30', '15:3
 localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']));
 
 // Fill tables and options
-fillCadeirasTable();
+fillCadeirasList();
 fillTurmasTable();
 fillGradeTable();
 hightlightSelectedTurmas();
@@ -19,11 +19,11 @@ cadeirasForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 
 	const cadeira = {
-		name: cadeirasForm.elements['name'].value,
+		name: cadeirasForm.elements['name'].value.toUpperCase(),
 		color: getRandomColor(),
 	};
 	addToLocalStorageArray(cadeira, 'cadeiras');
-	fillCadeirasTable();
+	fillCadeirasList();
 	fillCadeiraOptions();
 	fillGradeOptions();
 
@@ -38,7 +38,7 @@ turmasForm.addEventListener('submit', (e) => {
 	const turma = {
 		cadeira: turmasForm.elements['cadeira'].value,
 		horario: turmasForm.elements['horario'].value,
-		turma: turmasForm.elements['turma'].value,
+		turma: turmasForm.elements['turma'].value.toUpperCase(),
 		dias: Array.from(document.querySelectorAll('input[name="dias"]:checked')).map((checkbox) => checkbox.value),
 	};
 
@@ -58,6 +58,27 @@ function addToLocalStorageArray(item, arrayName) {
 	}
 }
 
+function calculateContrast(r1, g1, b1) {
+	const luminance1 = calculateRelativeLuminance(r1, g1, b1);
+	const luminance2 = calculateRelativeLuminance(248, 249, 250);
+
+	const contrastRatio = (Math.max(luminance1, luminance2) + 0.05) / (Math.min(luminance1, luminance2) + 0.05);
+
+	return contrastRatio.toFixed(2);
+}
+
+function calculateRelativeLuminance(r, g, b) {
+	const sRGB = (c) => {
+		const sRGBColor = c / 255;
+
+		return sRGBColor <= 0.03928 ? sRGBColor / 12.92 : Math.pow((sRGBColor + 0.055) / 1.055, 2.4);
+	};
+
+	const relativeLuminance = 0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b);
+
+	return relativeLuminance;
+}
+
 function fillCadeiraOptions() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const container = document.querySelector('#cadeira-options');
@@ -75,13 +96,13 @@ function fillCadeiraOptions() {
 	}
 }
 
-function fillCadeirasTable() {
+function fillCadeirasList() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
-	const cadeirasTable = document.querySelector('#cadeiras-table');
+	const cadeirasList = document.querySelector('#cadeiras-list');
 
 	cadeiras.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 
-	cadeirasTable.innerHTML = cadeiras.map((cadeira) => `<tr><td>${cadeira.name}</td></tr>`).join('');
+	cadeirasList.innerHTML = cadeiras.map((cadeira) => `<li>${cadeira.name}</li>`).join('');
 }
 
 function fillDiasOptions() {
@@ -93,10 +114,12 @@ function fillDiasOptions() {
 		checkbox.type = 'checkbox';
 		checkbox.name = 'dias';
 		checkbox.value = dia;
+		checkbox.classList.add('me-1');
 
 		const label = document.createElement('label');
 		label.htmlFor = dia;
 		label.textContent = dia;
+		label.classList.add('me-2');
 
 		container.appendChild(checkbox);
 		container.appendChild(label);
@@ -119,6 +142,7 @@ function fillGradeOptions() {
 			const filteredTurmas = turmas.filter((turma) => turma.cadeira === cadeira.name);
 			const select = document.createElement('select');
 			select.name = cadeira.name;
+			select.classList.add('ms-3');
 
 			select.innerHTML = filteredTurmas
 				.map((turma) => `<option value="${turma.turma}">${turma.turma}</option>`)
@@ -159,20 +183,27 @@ function fillGradeTable() {
 		turmas.forEach((turma) => {
 			if (turma.horario === horario) {
 				const row = document.createElement('tr');
-				row.innerHTML = filled ? `<td></td>` : `<td>${turma.horario}</td>`;
+				row.innerHTML = filled ? `<td class="pt-2"></td>` : `<td class="pt-2">${turma.horario}</td>`;
 				filled = true;
 				row.innerHTML += dias
-					.map((dia) => `<td>${turma.dias.includes(dia) ? turma.cadeira + ` (${turma.turma})` : ''}</td>`)
+					.map(
+						(dia) =>
+							`<td class="px-2">${
+								turma.dias.includes(dia) ? turma.cadeira + ` (${turma.turma})` : ''
+							}</td>`
+					)
 					.join('');
 				gradeTable.appendChild(row);
 			}
 		});
 		if (!filled) {
 			const row = document.createElement('tr');
-			row.innerHTML = `<td>${horario}</td>`;
+			row.innerHTML = `<td class="pt-2">${horario}</td>`;
 			gradeTable.appendChild(row);
 		}
 	});
+
+	hightlightSelectedTurmas();
 }
 
 function fillHorarioOptions() {
@@ -192,7 +223,7 @@ function fillTurmasTable() {
 	const turmasTable = document.querySelector('#turmas-table');
 
 	if (!!turmas.length)
-		turmasTable.innerHTML = `<thead><tr><th>Cadeira</th><th>Horário</th><th>Turma</th><th>Dias</th></tr></thead>`;
+		turmasTable.innerHTML = `<thead><tr><th class="pe-3">Cadeira</th><th class="pe-3">Horário</th><th class="pe-3">Turma</th><th>Dias</th></tr></thead>`;
 
 	turmas.sort(
 		(a, b) =>
@@ -202,17 +233,20 @@ function fillTurmasTable() {
 	turmasTable.innerHTML += turmas
 		.map(
 			(item) =>
-				`<tr><td>${item.cadeira}</td><td>${item.horario}</td><td>${item.turma}</td><td>${item.dias.join(
-					', '
-				)}</td></tr>`
+				`<tr><td class="pe-3">${item.cadeira}</td><td>${item.horario}</td><td class="pe-3">${
+					item.turma
+				}</td><td>${item.dias.join(', ')}</td></tr>`
 		)
 		.join('');
 }
 
 function getRandomColor() {
-	const r = Math.floor(Math.random() * 256);
-	const g = Math.floor(Math.random() * 256);
-	const b = Math.floor(Math.random() * 256);
+	let r, g, b;
+	do {
+		r = Math.floor(Math.random() * 256);
+		g = Math.floor(Math.random() * 256);
+		b = Math.floor(Math.random() * 256);
+	} while (calculateContrast(r, g, b) < 3);
 
 	const colorCode = `rgb(${r}, ${g}, ${b})`;
 
