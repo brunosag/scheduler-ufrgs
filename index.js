@@ -39,6 +39,7 @@ const turmasForm = document.querySelector('#turmas-form');
 turmasForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	const turma = {
 		cadeira: turmasForm.elements['cadeira'].value,
 		horario: turmasForm.elements['horario'].value,
@@ -46,12 +47,14 @@ turmasForm.addEventListener('submit', (e) => {
 		dias: Array.from(document.querySelectorAll('input[name="dias"]:checked')).map((checkbox) => checkbox.value),
 	};
 
-	addToLocalStorageArray(turma, 'turmas');
-	fillTurmasTable();
-	fillGradeOptions();
-	fillGradeTable();
+	if (!turmas.some((item) => item.cadeira === turma.cadeira && item.turma === turma.turma)) {
+		addToLocalStorageArray(turma, 'turmas');
+		fillTurmasTable();
+		fillGradeOptions();
+		fillGradeTable();
 
-	turmasForm.reset();
+		turmasForm.reset();
+	}
 });
 
 function addToLocalStorageArray(item, arrayName) {
