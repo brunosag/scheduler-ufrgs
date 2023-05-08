@@ -193,7 +193,7 @@ function fillGradeOptions() {
 			const filteredTurmas = turmas.filter((turma) => turma.cadeira === cadeira.name);
 			const select = document.createElement('select');
 			select.name = cadeira.name;
-			select.classList.add('ms-3');
+			select.classList.add('ms-3', 'form-select', 'form-select-sm');
 
 			select.innerHTML = filteredTurmas
 				.map((turma) => `<option value="${turma.turma}">${turma.turma}</option>`)
@@ -206,7 +206,7 @@ function fillGradeOptions() {
 		});
 
 	if (selectedTurmas) {
-		selectedTurmas.forEach((selectedTurma) => {
+		for (const selectedTurma of selectedTurmas) {
 			const { cadeira, turma } = selectedTurma;
 			const selectElement = gradeOptions.querySelector(`select[name="${cadeira}"]`);
 			const optionElement = selectElement.querySelector(`option[value="${turma}"]`);
@@ -214,7 +214,7 @@ function fillGradeOptions() {
 			if (optionElement) {
 				optionElement.selected = true;
 			}
-		});
+		}
 	}
 
 	getSelectedTurmas();
@@ -229,30 +229,20 @@ function fillGradeTable() {
 
 	gradeTable.innerHTML = '';
 
-	horarios.forEach((horario) => {
-		let filled = false;
-		turmas.forEach((turma) => {
-			if (turma.horario === horario) {
-				const row = document.createElement('tr');
-				row.innerHTML = filled ? `<td class="pt-2"></td>` : `<td class="pt-2">${turma.horario}</td>`;
-				filled = true;
-				row.innerHTML += dias
-					.map(
-						(dia) =>
-							`<td class="px-2">${
-								turma.dias.includes(dia) ? turma.cadeira + ` (${turma.turma})` : ''
-							}</td>`
-					)
-					.join('');
-				gradeTable.appendChild(row);
+	for (const horario of horarios) {
+		const row = document.createElement('tr');
+		row.innerHTML = `<td class="align-middle">${horario}</td>`;
+		for (const dia of dias) {
+			const cell = document.createElement('td');
+			for (const turma of turmas) {
+				if (turma.horario === horario && turma.dias.includes(dia)) {
+					cell.insertAdjacentHTML('beforeend', `<div>${turma.cadeira} (${turma.turma})</div>`);
+				}
 			}
-		});
-		if (!filled) {
-			const row = document.createElement('tr');
-			row.innerHTML = `<td class="pt-2">${horario}</td>`;
-			gradeTable.appendChild(row);
+			row.appendChild(cell);
 		}
-	});
+		gradeTable.appendChild(row);
+	}
 
 	hightlightSelectedTurmas();
 }
@@ -334,33 +324,33 @@ function hightlightSelectedTurmas() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const gradeTable = document.querySelector('#grade-table');
 
-	cadeiras.forEach((cadeira) => {
-		const matchingCells = Array.from(gradeTable.getElementsByTagName('td')).filter((cell) => {
+	for (const cadeira of cadeiras) {
+		const matchingCells = Array.from(gradeTable.getElementsByTagName('div')).filter((cell) => {
 			return cell.textContent.includes(`${cadeira.name}`);
 		});
-		matchingCells.forEach((cell) => {
+		for (const cell of matchingCells) {
 			cell.style.color = 'rgba(0, 0, 0, 0.25)';
-		});
-	});
+		}
+	}
 
-	selectedTurmas.forEach((selectedTurma) => {
+	for (const selectedTurma of selectedTurmas) {
 		const matchingCadeira = cadeiras.find((cadeira) => cadeira.name === selectedTurma.cadeira);
-		const matchingCells = Array.from(gradeTable.getElementsByTagName('td')).filter((cell) => {
+		const matchingCells = Array.from(gradeTable.getElementsByTagName('div')).filter((cell) => {
 			return cell.textContent.includes(`${selectedTurma.cadeira} (${selectedTurma.turma})`);
 		});
-		matchingCells.forEach((cell) => {
+		for (const cell of matchingCells) {
 			cell.style.color = matchingCadeira.color;
-		});
-	});
+		}
+	}
 }
 
 function listenToGradeOptions() {
 	const gradeOptions = document.querySelector('#grade-options');
 	const selectElements = gradeOptions.querySelectorAll('select');
-	selectElements.forEach((select) => {
+	for (const select of selectElements) {
 		select.addEventListener('change', () => {
 			getSelectedTurmas();
 			hightlightSelectedTurmas();
 		});
-	});
+	}
 }
