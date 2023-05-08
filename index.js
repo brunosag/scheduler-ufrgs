@@ -85,6 +85,23 @@ function calculateRelativeLuminance(r, g, b) {
 	return relativeLuminance;
 }
 
+function deleteCadeira(cadeira) {
+	const turmas = JSON.parse(localStorage.getItem('turmas'));
+	let cadeiras = JSON.parse(localStorage.getItem('cadeiras'));
+
+	cadeiras = cadeiras.filter((item) => item.name !== cadeira);
+
+	localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
+
+	fillCadeirasList();
+
+	for (const turma of turmas) {
+		if (turma.cadeira === cadeira) {
+			deleteTurma(cadeira, turma.turma);
+		}
+	}
+}
+
 function deleteTurma(cadeira, turma) {
 	let turmas = JSON.parse(localStorage.getItem('turmas'));
 	let selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas'));
@@ -123,7 +140,20 @@ function fillCadeirasList() {
 
 	cadeiras.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 
-	cadeirasList.innerHTML = cadeiras.map((cadeira) => `<li>${cadeira.name}</li>`).join('');
+	cadeirasList.innerHTML = '';
+
+	for (const cadeira of cadeiras) {
+		const row = document.createElement('tr');
+		row.innerHTML = `<td class="pe-4">${cadeira.name}</td>`;
+
+		const button = document.createElement('a');
+		button.role = 'button';
+		button.innerHTML = `<i class="fa-solid fa-x text-body-tertiary"></i>`;
+		button.addEventListener('click', () => deleteCadeira(cadeira.name));
+
+		row.appendChild(button);
+		cadeirasList.appendChild(row);
+	}
 }
 
 function fillDiasOptions() {
