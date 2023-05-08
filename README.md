@@ -13,7 +13,7 @@
 <p align="center">
     <a href="#about">About</a> •
     <a href="#features">Features</a> •
-    <a href="#how-to-use">How to Use</a> •
+    <a href="#usage">Usage</a> •
     <a href="#license">License</a> •
     <a href="#contact">Contact</a>
 </p>
@@ -21,41 +21,33 @@
 
 ## About
 
-Scheduler UFRGS is a scheduling system for courses and classes at UFRGS (Universidade Federal do Rio Grande do Sul). The application allows users to manage courses, classes, and schedules using HTML and JavaScript.
+Scheduler UFRGS is a scheduling system for courses and classes at UFRGS (Universidade Federal do Rio Grande do Sul). The application allows users to schedule courses and create timetables for their classes using HTML and JavaScript.
 
 
 ## Features
-- Add and manage courses
-- Add and manage classes for each course
-- Define class schedules with days and times
-- View and manage the overall schedule
+
+- **Course Management**: Easily add and manage courses with the ability to remove them if needed.
+
+- **Class Management**: Add and manage classes for each course, specifying the days and times they occur.
+
+- **Schedule Creation**: Create a timetable with the selected classes, intuitively adjusting the schedule by highlighting different classes for each course.
+
+- **Data Persistence**: Your data is stored in the browser's local storage, so your courses and schedules are saved even after closing the browser.
 
 
-## How to Use
+## Usage
 
-### Course Form
-- Fill in the name of the course in the "Nome da cadeira" field.
-- Click the "Adicionar" button to add the course to the list.
+When you open Scheduler UFRGS in your web browser, you'll see the main interface with the following sections:
 
-### Course List
-- Displays the list of course added using the Course Form.
+1. **Cadeiras**: This section allows you to add courses. To add a course, enter the course name and click "Adicionar". The added courses will be displayed in a list below.
 
-### Class Form
-- Select the course from the "Cadeira" dropdown menu.
-- Select the class schedule from the "Horário" dropdown menu.
-- Check the checkboxes for the days on which the class takes place.
-- Enter the class code in the "Turma" field.
-- Click the "Adicionar" button to add the class to the list.
+2. **Turmas**: This section allows you to add classes (turmas) for the courses. To add a class, select the course, time slot, days, and enter the class name (turma). Click "Adicionar" to add the class. The added classes will be displayed in a table below.
 
-### Class Table
-- Displays the list of classes added using the Class Form.
+3. **Grade Options**: This section displays the class selection options for the timetable. Select the class for each course from the dropdown menus. The selected classes will be automatically highlighted in the timetable.
 
-### Schedule Options
-- Displays the available courses and their corresponding class options in a table format.
+4. **Grade de Horários**: This section displays the timetable with all the added classes. The timetable is divided into time slots (Horários) and days (Segunda, Terça, Quarta, Quinta, Sexta). Selected classes will be highlighted with their respective color from the Grade Options.
 
-### Schedule
-- Displays the overall schedule with time slots and the classes scheduled for each day and time.
-- Highlights the selected classes in the Schedule Options.
+To remove a course or class, click the delete button (X icon) next to it in the corresponding section.
 
 
 ## License
