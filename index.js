@@ -18,16 +18,20 @@ const cadeirasForm = document.querySelector('#cadeiras-form');
 cadeirasForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const cadeira = {
 		name: cadeirasForm.elements['name'].value.toUpperCase(),
 		color: getRandomColor(),
 	};
-	addToLocalStorageArray(cadeira, 'cadeiras');
-	fillCadeirasList();
-	fillCadeiraOptions();
-	fillGradeOptions();
 
-	cadeirasForm.reset();
+	if (!cadeiras.some((item) => item.name === cadeira.name)) {
+		addToLocalStorageArray(cadeira, 'cadeiras');
+		fillCadeirasList();
+		fillCadeiraOptions();
+		fillGradeOptions();
+
+		cadeirasForm.reset();
+	}
 });
 
 // Handle turmas form
@@ -52,10 +56,9 @@ turmasForm.addEventListener('submit', (e) => {
 
 function addToLocalStorageArray(item, arrayName) {
 	const array = JSON.parse(localStorage.getItem(arrayName)) || [];
-	if (!array.includes(item)) {
-		array.push(item);
-		localStorage.setItem(arrayName, JSON.stringify(array));
-	}
+	array.push(item);
+
+	localStorage.setItem(arrayName, JSON.stringify(array));
 }
 
 function calculateContrast(r1, g1, b1) {
