@@ -94,6 +94,7 @@ function deleteCadeira(cadeira) {
 	localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
 
 	fillCadeirasList();
+	fillCadeiraOptions();
 
 	for (const turma of turmas) {
 		if (turma.cadeira === cadeira) {
@@ -143,16 +144,17 @@ function fillCadeirasList() {
 	cadeirasList.innerHTML = '';
 
 	for (const cadeira of cadeiras) {
-		const row = document.createElement('tr');
-		row.innerHTML = `<td class="pe-4">${cadeira.name}</td>`;
+		const listItem = document.createElement('li');
+		listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+		listItem.innerHTML = `<span class="pe-5">${cadeira.name}</span>`;
 
 		const button = document.createElement('a');
 		button.role = 'button';
-		button.innerHTML = `<i class="fa-solid fa-x text-body-tertiary"></i>`;
+		button.innerHTML = `<i class="fa-solid fa-x text-secondary opacity-50"></i>`;
 		button.addEventListener('click', () => deleteCadeira(cadeira.name));
 
-		row.appendChild(button);
-		cadeirasList.appendChild(row);
+		listItem.appendChild(button);
+		cadeirasList.appendChild(listItem);
 	}
 }
 

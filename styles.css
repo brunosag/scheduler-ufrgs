@@ -1,0 +1,10 @@
+* {
+	--bs-body-bg: var(--bs-light);
+}
+
+input,
+select,
+label,
+.list-group {
+	--bs-body-bg: #fff;
+}
