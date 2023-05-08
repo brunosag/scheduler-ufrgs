@@ -79,6 +79,21 @@ function calculateRelativeLuminance(r, g, b) {
 	return relativeLuminance;
 }
 
+function deleteTurma(cadeira, turma) {
+	let turmas = JSON.parse(localStorage.getItem('turmas'));
+	let selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas'));
+
+	turmas = turmas.filter((item) => item.cadeira !== cadeira || item.turma !== turma);
+	selectedTurmas = selectedTurmas.filter((item) => item.cadeira !== cadeira || item.turma !== turma);
+
+	localStorage.setItem('turmas', JSON.stringify(turmas));
+	localStorage.setItem('selectedTurmas', JSON.stringify(selectedTurmas));
+
+	fillTurmasTable();
+	fillGradeOptions();
+	fillGradeTable();
+}
+
 function fillCadeiraOptions() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const container = document.querySelector('#cadeira-options');
@@ -222,22 +237,32 @@ function fillTurmasTable() {
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	const turmasTable = document.querySelector('#turmas-table');
 
-	if (!!turmas.length)
-		turmasTable.innerHTML = `<thead><tr><th class="pe-3">Cadeira</th><th class="pe-3">Horário</th><th class="pe-3">Turma</th><th>Dias</th></tr></thead>`;
+	turmasTable.innerHTML = !!turmas.length
+		? `<thead><tr><th class="pe-3">Cadeira</th><th class="pe-3">Horário</th><th class="pe-3">Turma</th><th>Dias</th></tr></thead>`
+		: '';
 
-	turmas.sort(
-		(a, b) =>
-			a.cadeira.localeCompare(b.cadeira) || a.horario.localeCompare(b.horario) || a.turma.localeCompare(b.turma)
-	);
+	turmas.sort((a, b) => {
+		return (
+			a.cadeira.localeCompare(b.cadeira) ||
+			Number(a.horario.split(':')[0]) - Number(b.horario.split(':')[0]) ||
+			a.turma.localeCompare(b.turma)
+		);
+	});
 
-	turmasTable.innerHTML += turmas
-		.map(
-			(item) =>
-				`<tr><td class="pe-3">${item.cadeira}</td><td>${item.horario}</td><td class="pe-3">${
-					item.turma
-				}</td><td>${item.dias.join(', ')}</td></tr>`
-		)
-		.join('');
+	for (const turma of turmas) {
+		const row = document.createElement('tr');
+		row.innerHTML = `<td class="pe-3">${turma.cadeira}</td><td>${turma.horario}</td><td class="pe-3">${
+			turma.turma
+		}</td><td class="pe-4">${turma.dias.join(', ')}</td>`;
+
+		const button = document.createElement('a');
+		button.role = 'button';
+		button.innerHTML = `<i class="fa-solid fa-x text-body-tertiary"></i>`;
+		button.addEventListener('click', () => deleteTurma(turma.cadeira, turma.turma));
+
+		row.appendChild(button);
+		turmasTable.appendChild(row);
+	}
 }
 
 function getRandomColor() {
