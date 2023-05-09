@@ -223,7 +223,9 @@ function fillGradeTable() {
 	const dias = JSON.parse(localStorage.getItem('dias'));
 	const showSelectedCheckbox = document.querySelector('#show-selected-checkbox');
 	const showSelected = JSON.parse(localStorage.getItem('showSelected')) || false;
+	const showSelectedContainer = document.querySelector('#show-selected-container');
 
+	showSelectedContainer.hidden = turmas.length == 0 ? true : false;
 	showSelectedCheckbox.checked = showSelected;
 
 	gradeTable.innerHTML = '';
@@ -378,9 +380,9 @@ function listenToGradeOptions() {
 
 function listenToShowSelected() {
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
-	const showSelectedContainer = document.querySelector('#show-selected-container');
 	const showSelectedCheckbox = document.querySelector('#show-selected-checkbox');
 
+	const showSelectedContainer = document.querySelector('#show-selected-container');
 	showSelectedContainer.hidden = turmas.length == 0 ? true : false;
 
 	showSelectedCheckbox.addEventListener('change', () => {

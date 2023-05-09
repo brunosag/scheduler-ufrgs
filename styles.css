@@ -1,5 +1,6 @@
-* {
+:root {
 	--bs-body-bg: var(--bs-light);
+	--bs-primary: var(--bs-dark);
 }
 
 input,
@@ -11,4 +12,16 @@ label,
 
 .btn.filled {
 	--bs-btn-bg: #fff;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+	border-color: hsl(216, 0%, 76%);
+	box-shadow: 0 0 0 0.25rem hsla(216, 0%, 52%, 0.25);
+}
+
+.form-check-input:checked {
+	background-color: var(--bs-dark);
+	border-color: var(--bs-dark);
 }
