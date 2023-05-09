@@ -72,7 +72,7 @@ function addToLocalStorageArray(item, arrayName) {
 }
 
 function deleteCadeira(cadeira) {
-	const turmas = JSON.parse(localStorage.getItem('turmas'));
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	let cadeiras = JSON.parse(localStorage.getItem('cadeiras'));
 
 	cadeiras = cadeiras.filter((item) => item.name !== cadeira);
@@ -90,8 +90,8 @@ function deleteCadeira(cadeira) {
 }
 
 function deleteTurma(cadeira, turma) {
-	let turmas = JSON.parse(localStorage.getItem('turmas'));
-	let selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas'));
+	let turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	let selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas')) || [];
 
 	turmas = turmas.filter((item) => item.cadeira !== cadeira || item.turma !== turma);
 	selectedTurmas = selectedTurmas.filter((item) => item.cadeira !== cadeira || item.turma !== turma);
@@ -296,9 +296,26 @@ function fillTurmasTable() {
 }
 
 function getRandomColor() {
-	const h = Math.floor(Math.random() * 360);
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
+
+	let exists = false;
+	let h = Math.floor(Math.random() * 360);
 	const s = 90;
 	const l = 40;
+
+	if (cadeiras.length != 0 && cadeiras.length < 7) {
+		do {
+			h = Math.floor(Math.random() * 360);
+
+			exists = cadeiras
+				.map((cadeira) => cadeira.color)
+				.some((color) => {
+					const existingH = color.substring(color.indexOf('(') + 1, color.indexOf(','));
+					return Math.abs(existingH - h) < 30 || Math.abs(existingH - h) > 330;
+				});
+			console.log(exists);
+		} while (exists);
+	}
 
 	const colorCode = `hsl(${h}, ${s}%, ${l}%)`;
 
