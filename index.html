@@ -31,7 +31,7 @@
 		</nav>
 	</header>
 	<body>
-		<div class="container mt-3 mb-5">
+		<div class="container mt-3 mb-4">
 			<!-- Cadeiras Form -->
 			<div class="col-auto me-5 mb-3">
 				<h2 class="mb-3">Cadeiras</h2>
@@ -55,7 +55,7 @@
 			<ul id="cadeiras-list" class="list-group list-group-horizontal d-flex flex-wrap"></ul>
 			<hr class="mt-4 mb-3" />
 			<!-- Turmas Form -->
-			<div class="row">
+			<div class="row d-flex justify-content-between">
 				<div class="col-auto me-5">
 					<h2 class="mb-3">Turmas</h2>
 					<form id="turmas-form">
@@ -92,7 +92,7 @@
 					</form>
 				</div>
 				<!-- Turmas Table -->
-				<div class="col d-flex align-items-center">
+				<div class="col-lg-7 d-flex align-items-center table-responsive">
 					<table id="turmas-table" class="table"></table>
 				</div>
 			</div>
@@ -109,19 +109,23 @@
 				</div>
 			</div>
 			<!-- Grade Table -->
-			<table class="table table-bordered text-center bg-white">
-				<thead>
-					<tr>
-						<th>Horário</th>
-						<th>Segunda</th>
-						<th>Terça</th>
-						<th>Quarta</th>
-						<th>Quinta</th>
-						<th>Sexta</th>
-					</tr>
-				</thead>
-				<tbody id="grade-table"></tbody>
-			</table>
+			<div class="table-responsive mb-3">
+				<table class="table table-bordered text-center bg-white mb-0">
+					<thead>
+						<tr>
+							<th>Horário</th>
+							<th>Segunda</th>
+							<th>Terça</th>
+							<th>Quarta</th>
+							<th>Quinta</th>
+							<th>Sexta</th>
+						</tr>
+					</thead>
+					<tbody id="grade-table"></tbody>
+				</table>
+			</div>
+			<a role="button" class="link-secondary d-flex">Salvar como PDF</a>
+			<a role="button" class="link-secondary d-flex">Salvar como JPEG</a>
 		</div>
 	</body>
 	<footer>
