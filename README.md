@@ -1,7 +1,7 @@
 <h1 align="center">
     <br>
-    <a href="">
-        <img src="https://user-images.githubusercontent.com/97703272/236664409-816db681-ec49-4344-b106-d58d689d5c39.png" alt="Scheduler UFRGS" width="200">
+    <a href="https://scheduler-ufrgs.onrender.com/">
+        <img src="https://github.com/brunosag/scheduler-ufrgs/assets/97703272/d37a5b76-c5e0-4505-83e0-7949f2645fbb" width="200">
     </a>
     <br>
     Scheduler UFRGS
