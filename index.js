@@ -12,6 +12,7 @@ fillCadeiraOptions();
 fillHorarioOptions();
 fillGradeOptions();
 listenToGradeOptions();
+listenToShowSelected();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
@@ -68,27 +69,6 @@ function addToLocalStorageArray(item, arrayName) {
 	array.push(item);
 
 	localStorage.setItem(arrayName, JSON.stringify(array));
-}
-
-function calculateContrast(r1, g1, b1) {
-	const luminance1 = calculateRelativeLuminance(r1, g1, b1);
-	const luminance2 = calculateRelativeLuminance(248, 249, 250);
-
-	const contrastRatio = (Math.max(luminance1, luminance2) + 0.05) / (Math.min(luminance1, luminance2) + 0.05);
-
-	return contrastRatio.toFixed(2);
-}
-
-function calculateRelativeLuminance(r, g, b) {
-	const sRGB = (c) => {
-		const sRGBColor = c / 255;
-
-		return sRGBColor <= 0.03928 ? sRGBColor / 12.92 : Math.pow((sRGBColor + 0.055) / 1.055, 2.4);
-	};
-
-	const relativeLuminance = 0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b);
-
-	return relativeLuminance;
 }
 
 function deleteCadeira(cadeira) {
@@ -241,6 +221,10 @@ function fillGradeTable() {
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	const horarios = JSON.parse(localStorage.getItem('horarios'));
 	const dias = JSON.parse(localStorage.getItem('dias'));
+	const showSelectedCheckbox = document.querySelector('#show-selected-checkbox');
+	const showSelected = JSON.parse(localStorage.getItem('showSelected')) || false;
+
+	showSelectedCheckbox.checked = showSelected;
 
 	gradeTable.innerHTML = '';
 
@@ -312,15 +296,6 @@ function fillTurmasTable() {
 }
 
 function getRandomColor() {
-	// let r, g, b;
-	// do {
-	// 	r = Math.floor(Math.random() * 256);
-	// 	g = Math.floor(Math.random() * 256);
-	// 	b = Math.floor(Math.random() * 256);
-	// } while (calculateContrast(r, g, b) < 3);
-
-	// const colorCode = `rgb(${r}, ${g}, ${b})`;
-
 	const h = Math.floor(Math.random() * 360);
 	const s = 90;
 	const l = 40;
@@ -349,12 +324,14 @@ function hightlightSelectedTurmas() {
 	const selectedTurmas = JSON.parse(localStorage.getItem('selectedTurmas')) || [];
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 	const gradeTable = document.querySelector('#grade-table');
+	const showSelected = JSON.parse(localStorage.getItem('showSelected')) || false;
 
 	for (const cadeira of cadeiras) {
 		const matchingCells = Array.from(gradeTable.getElementsByTagName('div')).filter((cell) => {
 			return cell.textContent.includes(`${cadeira.name}`);
 		});
 		for (const cell of matchingCells) {
+			if (showSelected) cell.hidden = true;
 			cell.style.color = 'rgba(0, 0, 0, 0.25)';
 		}
 	}
@@ -365,6 +342,7 @@ function hightlightSelectedTurmas() {
 			return cell.textContent.includes(`${selectedTurma.cadeira} (${selectedTurma.turma})`);
 		});
 		for (const cell of matchingCells) {
+			if (showSelected) cell.hidden = false;
 			cell.style.color = matchingCadeira.color;
 		}
 	}
@@ -379,4 +357,17 @@ function listenToGradeOptions() {
 			hightlightSelectedTurmas();
 		});
 	}
+}
+
+function listenToShowSelected() {
+	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+	const showSelectedContainer = document.querySelector('#show-selected-container');
+	const showSelectedCheckbox = document.querySelector('#show-selected-checkbox');
+
+	showSelectedContainer.hidden = turmas.length == 0 ? true : false;
+
+	showSelectedCheckbox.addEventListener('change', () => {
+		localStorage.setItem('showSelected', showSelectedCheckbox.checked);
+		fillGradeTable();
+	});
 }
