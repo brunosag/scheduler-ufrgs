@@ -39,7 +39,7 @@
 						/>
 					</div>
 					<div class="col-auto">
-						<input value="Adicionar" type="submit" class="btn btn-secondary" />
+						<input value="Adicionar" type="submit" class="btn btn-dark" />
 					</div>
 				</form>
 			</div>
@@ -52,20 +52,36 @@
 			<div class="mb-3">
 				<h2 class="mb-3">Turmas</h2>
 				<form id="turmas-form">
-					<div class="mb-1">
-						<label for="cadeira" class="me-1">Cadeira:</label>
-						<select id="cadeira-options" name="cadeira" class="me-2"></select>
-						<label for="horario" class="me-1">Horário:</label>
-						<select id="horario-options" name="horario"></select>
-					</div>
-					<div class="mb-1">
-						<div id="dias-options">
-							<label class="me-1">Dias:</label>
+					<div class="mb-2 row g-3">
+						<div class="col-auto">
+							<label for="cadeira">Cadeira</label>
+							<select id="cadeira-options" name="cadeira" class="form-select"></select>
+						</div>
+						<div class="col-auto">
+							<label for="horario">Horário</label>
+							<select id="horario-options" name="horario" class="form-select"></select>
 						</div>
 					</div>
-					<label for="turma" class="me-1">Turma:</label>
-					<input type="text" name="turma" class="text-uppercase me-1" maxlength="3" required />
-					<input type="submit" value="Adicionar" />
+					<div class="mb-2">
+						<label class="me-3">Dias</label>
+						<div id="dias-options" class="input-group"></div>
+					</div>
+					<label for="turma">Turma</label>
+					<div class="row g-3 mb-3">
+						<div class="col-auto">
+							<input
+								type="text"
+								name="turma"
+								class="form-control text-uppercase"
+								maxlength="3"
+								style="max-width: 6rem"
+								required
+							/>
+						</div>
+						<div class="col-auto">
+							<input type="submit" value="Adicionar" class="btn btn-dark" />
+						</div>
+					</div>
 				</form>
 			</div>
 			<!-- Turmas Table -->
@@ -82,12 +98,12 @@
 			<table class="table table-bordered text-center bg-white">
 				<thead>
 					<tr>
-						<th class="px-2">Horário</th>
-						<th class="px-2">Segunda</th>
-						<th class="px-2">Terça</th>
-						<th class="px-2">Quarta</th>
-						<th class="px-2">Quinta</th>
-						<th class="px-2">Sexta</th>
+						<th>Horário</th>
+						<th>Segunda</th>
+						<th>Terça</th>
+						<th>Quarta</th>
+						<th>Quinta</th>
+						<th>Sexta</th>
 					</tr>
 				</thead>
 				<tbody id="grade-table"></tbody>

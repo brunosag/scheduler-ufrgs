@@ -167,12 +167,19 @@ function fillDiasOptions() {
 		checkbox.type = 'checkbox';
 		checkbox.name = 'dias';
 		checkbox.value = dia;
-		checkbox.classList.add('me-1');
+		checkbox.id = dia;
+		checkbox.classList.add('btn-check');
 
 		const label = document.createElement('label');
 		label.htmlFor = dia;
 		label.textContent = dia;
-		label.classList.add('me-2');
+		label.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'filled');
+
+		if (dia === 'Segunda') {
+			label.classList.add('rounded-start');
+		} else if (dia === 'Sexta') {
+			label.classList.add('rounded-end');
+		}
 
 		container.appendChild(checkbox);
 		container.appendChild(label);
@@ -294,14 +301,20 @@ function fillTurmasTable() {
 }
 
 function getRandomColor() {
-	let r, g, b;
-	do {
-		r = Math.floor(Math.random() * 256);
-		g = Math.floor(Math.random() * 256);
-		b = Math.floor(Math.random() * 256);
-	} while (calculateContrast(r, g, b) < 3);
+	// let r, g, b;
+	// do {
+	// 	r = Math.floor(Math.random() * 256);
+	// 	g = Math.floor(Math.random() * 256);
+	// 	b = Math.floor(Math.random() * 256);
+	// } while (calculateContrast(r, g, b) < 3);
 
-	const colorCode = `rgb(${r}, ${g}, ${b})`;
+	// const colorCode = `rgb(${r}, ${g}, ${b})`;
+
+	const h = Math.floor(Math.random() * 360);
+	const s = 90;
+	const l = 40;
+
+	const colorCode = `hsl(${h}, ${s}%, ${l}%)`;
 
 	return colorCode;
 }

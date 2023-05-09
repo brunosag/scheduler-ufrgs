@@ -8,3 +8,7 @@ label,
 .list-group {
 	--bs-body-bg: #fff;
 }
+
+.btn.filled {
+	--bs-btn-bg: #fff;
+}
