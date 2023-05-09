@@ -53,7 +53,10 @@ turmasForm.addEventListener('submit', (e) => {
 		fillGradeOptions();
 		fillGradeTable();
 
-		turmasForm.reset();
+		turmasForm.elements['turma'].value = '';
+		Array.from(document.querySelectorAll('input[name="dias"]:checked')).map(
+			(checkbox) => (checkbox.checked = false)
+		);
 	}
 });
 
@@ -93,14 +96,14 @@ function deleteCadeira(cadeira) {
 
 	localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
 
-	fillCadeirasList();
-	fillCadeiraOptions();
-
 	for (const turma of turmas) {
 		if (turma.cadeira === cadeira) {
 			deleteTurma(cadeira, turma.turma);
 		}
 	}
+
+	fillCadeirasList();
+	fillCadeiraOptions();
 }
 
 function deleteTurma(cadeira, turma) {
@@ -146,7 +149,7 @@ function fillCadeirasList() {
 	for (const cadeira of cadeiras) {
 		const listItem = document.createElement('li');
 		listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
-		listItem.innerHTML = `<span class="pe-5">${cadeira.name}</span>`;
+		listItem.innerHTML = `<span class="pe-4">${cadeira.name}</span>`;
 
 		const button = document.createElement('a');
 		button.role = 'button';
@@ -271,9 +274,10 @@ function fillHorarioOptions() {
 function fillTurmasTable() {
 	const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
 	const turmasTable = document.querySelector('#turmas-table');
+	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 
 	turmasTable.innerHTML = !!turmas.length
-		? `<thead><tr><th class="pe-3">Cadeira</th><th class="pe-3">Horário</th><th class="pe-3">Turma</th><th>Dias</th></tr></thead>`
+		? `<thead><tr><th>Cadeira</th><th>Horário</th><th>Turma</th><th>Dias</th><th></th></tr></thead>`
 		: '';
 
 	turmas.sort((a, b) => {
@@ -285,17 +289,21 @@ function fillTurmasTable() {
 	});
 
 	for (const turma of turmas) {
-		const row = document.createElement('tr');
-		row.innerHTML = `<td class="pe-3">${turma.cadeira}</td><td>${turma.horario}</td><td class="pe-3">${
-			turma.turma
-		}</td><td class="pe-4">${turma.dias.join(', ')}</td>`;
+		const cadeira = cadeiras.find((item) => item.name === turma.cadeira);
 
+		const row = document.createElement('tr');
+		row.innerHTML = `<td style="color: ${cadeira.color}">${turma.cadeira}</td><td>${turma.horario}</td><td>${
+			turma.turma
+		}</td><td class="text-secondary">${turma.dias.join(', ')}</td>`;
+
+		const buttonCell = document.createElement('td');
 		const button = document.createElement('a');
 		button.role = 'button';
-		button.innerHTML = `<i class="fa-solid fa-x text-body-tertiary"></i>`;
+		button.innerHTML = `<i class="fa-solid fa-x text-secondary opacity-50"></i>`;
 		button.addEventListener('click', () => deleteTurma(turma.cadeira, turma.turma));
 
-		row.appendChild(button);
+		buttonCell.appendChild(button);
+		row.appendChild(buttonCell);
 		turmasTable.appendChild(row);
 	}
 }

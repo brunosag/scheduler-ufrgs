@@ -25,7 +25,7 @@
 			<h1 class="mb-4">Scheduler UFRGS</h1>
 			<hr />
 			<!-- Cadeiras Form -->
-			<div class="mb-">
+			<div class="col-auto me-5 mb-3">
 				<h2 class="mb-3">Cadeiras</h2>
 				<label for="name">Nome da cadeira</label>
 				<form id="cadeiras-form" class="row g-3">
@@ -44,49 +44,49 @@
 				</form>
 			</div>
 			<!-- Cadeiras List -->
-			<div class="mb-3 mt-3 row">
-				<ul id="cadeiras-list" class="list-group ps-3 col-auto"></ul>
-			</div>
+			<ul id="cadeiras-list" class="list-group list-group-horizontal d-flex flex-wrap"></ul>
 			<hr />
 			<!-- Turmas Form -->
-			<div class="mb-3">
-				<h2 class="mb-3">Turmas</h2>
-				<form id="turmas-form">
-					<div class="mb-2 row g-3">
-						<div class="col-auto">
-							<label for="cadeira">Cadeira</label>
-							<select id="cadeira-options" name="cadeira" class="form-select"></select>
+			<div class="row">
+				<div class="col-auto me-5">
+					<h2 class="mb-3">Turmas</h2>
+					<form id="turmas-form">
+						<div class="mb-2 row g-3">
+							<div class="col-auto">
+								<label for="cadeira">Cadeira</label>
+								<select id="cadeira-options" name="cadeira" class="form-select"></select>
+							</div>
+							<div class="col-auto">
+								<label for="horario">Horário</label>
+								<select id="horario-options" name="horario" class="form-select"></select>
+							</div>
 						</div>
-						<div class="col-auto">
-							<label for="horario">Horário</label>
-							<select id="horario-options" name="horario" class="form-select"></select>
+						<div class="mb-2">
+							<label class="me-3">Dias</label>
+							<div id="dias-options" class="input-group"></div>
 						</div>
-					</div>
-					<div class="mb-2">
-						<label class="me-3">Dias</label>
-						<div id="dias-options" class="input-group"></div>
-					</div>
-					<label for="turma">Turma</label>
-					<div class="row g-3 mb-3">
-						<div class="col-auto">
-							<input
-								type="text"
-								name="turma"
-								class="form-control text-uppercase"
-								maxlength="3"
-								style="max-width: 6rem"
-								required
-							/>
+						<label for="turma">Turma</label>
+						<div class="row g-3 mb-3">
+							<div class="col-auto">
+								<input
+									type="text"
+									name="turma"
+									class="form-control text-uppercase"
+									maxlength="3"
+									style="max-width: 6rem"
+									required
+								/>
+							</div>
+							<div class="col-auto">
+								<input type="submit" value="Adicionar" class="btn btn-dark" />
+							</div>
 						</div>
-						<div class="col-auto">
-							<input type="submit" value="Adicionar" class="btn btn-dark" />
-						</div>
-					</div>
-				</form>
-			</div>
-			<!-- Turmas Table -->
-			<div class="mb-3">
-				<table id="turmas-table"></table>
+					</form>
+				</div>
+				<!-- Turmas Table -->
+				<div class="col d-flex align-items-center">
+					<table id="turmas-table" class="table"></table>
+				</div>
 			</div>
 			<hr />
 			<!-- Grade Options -->
