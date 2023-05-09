@@ -266,7 +266,7 @@ function fillTurmasTable() {
 	const cadeiras = JSON.parse(localStorage.getItem('cadeiras')) || [];
 
 	turmasTable.innerHTML = !!turmas.length
-		? `<thead><tr><th>Cadeira</th><th>Horário</th><th>Turma</th><th>Dias</th><th></th></tr></thead>`
+		? `<thead><tr><th class="ps-0">Cadeira</th><th class="ps-0">Horário</th><th class="ps-0">Turma</th><th class="ps-0">Dias</th><th></th></tr></thead>`
 		: '';
 
 	turmas.sort((a, b) => {
