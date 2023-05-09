@@ -47,7 +47,10 @@ turmasForm.addEventListener('submit', (e) => {
 		dias: Array.from(document.querySelectorAll('input[name="dias"]:checked')).map((checkbox) => checkbox.value),
 	};
 
-	if (!turmas.some((item) => item.cadeira === turma.cadeira && item.turma === turma.turma)) {
+	if (
+		!turmas.some((item) => item.cadeira === turma.cadeira && item.turma === turma.turma) &&
+		turma.dias.length != 0
+	) {
 		addToLocalStorageArray(turma, 'turmas');
 		fillTurmasTable();
 		fillGradeOptions();
