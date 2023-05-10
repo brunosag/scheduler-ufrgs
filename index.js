@@ -1,3 +1,5 @@
+window.jsPDF = window.jspdf.jsPDF;
+
 // Set fixed horarios and dias
 localStorage.setItem('horarios', JSON.stringify(['8:30', '10:30', '13:30', '15:30', '18:30']));
 localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']));
@@ -13,6 +15,7 @@ fillHorarioOptions();
 fillGradeOptions();
 listenToGradeOptions();
 listenToShowSelected();
+listenToSaveButtons();
 
 // Handle cadeiras form
 const cadeirasForm = document.querySelector('#cadeiras-form');
@@ -376,6 +379,26 @@ function listenToGradeOptions() {
 			hightlightSelectedTurmas();
 		});
 	}
+}
+
+function listenToSaveButtons() {
+	const saveJPEGButton = document.querySelector('#save-jpeg-button');
+	const table = document.querySelector('#full-table');
+
+	saveJPEGButton.addEventListener('click', () => {
+		html2canvas(table).then(function (canvas) {
+			canvas.toBlob(
+				function (blob) {
+					const link = document.createElement('a');
+					link.href = URL.createObjectURL(blob);
+					link.download = 'horarios.jpg';
+					link.click();
+				},
+				'image/jpeg',
+				1.0
+			);
+		});
+	});
 }
 
 function listenToShowSelected() {

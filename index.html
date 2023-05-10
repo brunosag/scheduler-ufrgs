@@ -16,6 +16,8 @@
 			integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 			crossorigin="anonymous"
 		></script>
+		<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 		<script src="https://kit.fontawesome.com/9aea94aa37.js" crossorigin="anonymous"></script>
 		<title>Scheduler UFRGS</title>
 	</head>
@@ -110,7 +112,7 @@
 			</div>
 			<!-- Grade Table -->
 			<div class="table-responsive mb-3">
-				<table class="table table-bordered text-center bg-white mb-0">
+				<table id="full-table" class="table table-bordered text-center bg-white mb-0">
 					<thead>
 						<tr>
 							<th>Horário</th>
@@ -124,8 +126,7 @@
 					<tbody id="grade-table"></tbody>
 				</table>
 			</div>
-			<a role="button" class="link-secondary d-flex">Salvar como PDF</a>
-			<a role="button" class="link-secondary d-flex">Salvar como JPEG</a>
+			<a role="button" id="save-jpeg-button" class="link-secondary">Salvar como JPEG</a>
 		</div>
 	</body>
 	<footer>
