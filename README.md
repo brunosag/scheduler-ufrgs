@@ -26,28 +26,30 @@ Scheduler UFRGS is a scheduling system for courses and classes at UFRGS (Univers
 
 ## Features
 
-- **Course Management**: Easily add and manage courses with the ability to remove them if needed.
+- **Course Management**: Add and manage courses, with the ability to remove them if necessary.
 
 - **Class Management**: Add and manage classes for each course, specifying the days and times they occur.
 
-- **Schedule Creation**: Create a timetable with the selected classes, intuitively adjusting the schedule by highlighting different classes for each course.
+- **Schedule Creation**: Create timetables by selecting classes and intuitively adjusting the schedule.
 
-- **Data Persistence**: Your data is stored in the browser's local storage, so your courses and schedules are saved even after closing the browser.
+- **Image Saving**: Save timetables as JPEG images directly to your device.
+
+- **Data Persistence**: Your courses and schedules are automatically saved in the browser's local storage, ensuring they are preserved even after closing the browser.
 
 
 ## Usage
 
-When you open Scheduler UFRGS in your web browser, you'll see the main interface with the following sections:
+Upon opening Scheduler UFRGS in your web browser, you will see the main interface, which consists of the following sections:
 
 1. **Cadeiras**: This section allows you to add courses. To add a course, enter the course name and click "Adicionar". The added courses will be displayed in a list below.
 
-2. **Turmas**: This section allows you to add classes (turmas) for the courses. To add a class, select the course, time slot, days, and enter the class name (turma). Click "Adicionar" to add the class. The added classes will be displayed in a table below.
+2. **Turmas**: This section allows you to add classes (turmas) for each course. To add a class, select the course, time slot, days, and enter the class name (turma). Click "Adicionar" to add the class. The added classes will be displayed in a table below.
 
-3. **Grade Options**: This section displays the class selection options for the timetable. Select the class for each course from the dropdown menus. The selected classes will be automatically highlighted in the timetable.
+3. **Grade Options**: This section displays the class selection options for creating the timetable. Select the desired class for each course from the dropdown menus. The selected classes will be automatically highlighted in the timetable.
 
-4. **Grade de Horários**: This section displays the timetable with all the added classes. The timetable is divided into time slots (Horários) and days (Segunda, Terça, Quarta, Quinta, Sexta). Selected classes will be highlighted with their respective color from the Grade Options.
+4. **Grade de Horários**: This section displays the timetable with all the added classes. The timetable is divided into time slots (Horários) and days (Segunda, Terça, Quarta, Quinta, Sexta). Selected classes will be highlighted with their respective colors as defined in the Grade Options. To show only the currently selected classes, check the "Mostrar apenas selecionados" checkbox above the table. The "Salvar como JPEG" button under the table allows you to save the current state of the timetable as a JPEG image to your device.
 
-To remove a course or class, click the delete button (X icon) next to it in the corresponding section.
+To remove a course or class, simply click the delete button (X icon) next to it in the corresponding section.
 
 
 ## License
@@ -57,4 +59,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Bruno Samuel - [LinkedIn](https://www.linkedin.com/in/brunosag/) - brunosag@outlook.com.br
+Bruno Samuel - <a href="https://www.linkedin.com/in/brunosag/" target="_new">LinkedIn</a> - <a href="mailto:brunosag@outlook.com.br" target="_new">brunosag@outlook.com.br</a>
