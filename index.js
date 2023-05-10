@@ -1,7 +1,8 @@
-window.jsPDF = window.jspdf.jsPDF;
-
 // Set fixed horarios and dias
-localStorage.setItem('horarios', JSON.stringify(['8:30', '10:30', '13:30', '15:30', '18:30']));
+localStorage.setItem(
+	'horarios',
+	JSON.stringify(['8:30 - 10:10', '10:30 - 12:10', '13:30 - 15:10', '15:30 - 17:10', '18:30 - 20:10'])
+);
 localStorage.setItem('dias', JSON.stringify(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']));
 
 // Fill tables and options
