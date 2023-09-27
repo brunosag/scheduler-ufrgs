@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
+import { ThemeProvider } from '@/components/theme-provider';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import type { Metadata } from 'next';
@@ -16,11 +17,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<div className="flex flex-col h-screen">
-					<Header />
-					<div className="flex-1">{children}</div>
-					<Footer />
-				</div>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+					<div className="flex flex-col h-screen">
+						<Header />
+						<div className="flex-1">{children}</div>
+						<Footer />
+					</div>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
