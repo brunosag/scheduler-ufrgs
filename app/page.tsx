@@ -1,7 +1,9 @@
+import Cadeiras from '@/components/cadeiras';
+
 export default function Home() {
 	return (
-		<div className="flex h-full items-center justify-center">
-			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">Home</h1>
+		<div className="container h-full items-start justify-center gap-5 grid lg:grid-cols-2 xl:grid-cols-3 py-5">
+			<Cadeiras />
 		</div>
 	);
 }
