@@ -1,21 +1,19 @@
 import { Button } from './ui/button';
 import { CheckIcon } from 'lucide-react';
-import { Dispatch, SetStateAction, FC, useState } from 'react';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { DataContext, DataContextType } from '@/context/data-context';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from './ui/input';
 import { PlusIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useForm } from 'react-hook-form';
+import { useState, useContext } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
-interface IProps {
-	cadeiras: string[];
-	setCadeiras: Dispatch<SetStateAction<string[]>>;
-}
-
-const AddCadeira: FC<IProps> = ({ cadeiras, setCadeiras }) => {
+export default function AddCadeira() {
 	const [open, setOpen] = useState<boolean>(false);
+	const { cadeiras, setCadeiras } = useContext(DataContext) as DataContextType;
 
 	const formSchema = z.object({
 		name: z
@@ -64,14 +62,21 @@ const AddCadeira: FC<IProps> = ({ cadeiras, setCadeiras }) => {
 								</FormItem>
 							)}
 						/>
-						<Button size="icon" type="submit" className="h-9 aspect-square">
-							<CheckIcon className="w-4 h-4" />
-						</Button>
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button size="icon" type="submit" className="h-9 aspect-square">
+										<CheckIcon className="w-4 h-4" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Confirmar</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
 					</form>
 				</Form>
 			</PopoverContent>
 		</Popover>
 	);
-};
-
-export default AddCadeira;
+}

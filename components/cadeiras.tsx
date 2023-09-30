@@ -1,15 +1,14 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
+import { DataContext, DataContextType } from '@/context/data-context';
+import { useContext, useEffect } from 'react';
 import { XIcon } from 'lucide-react';
 import AddCadeira from './add-cadeira';
 
-export default function Cadeiras() {
-	const [cadeiras, setCadeiras] = useState<string[]>(() => {
-		const storageCadeiras = localStorage.getItem('cadeiras');
-		return storageCadeiras ? JSON.parse(storageCadeiras) : [];
-	});
+export default function Cadeiras({ className }: { className: string }) {
+	const { cadeiras, setCadeiras } = useContext(DataContext) as DataContextType;
 
 	useEffect(() => {
 		localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
@@ -21,7 +20,7 @@ export default function Cadeiras() {
 	}
 
 	return (
-		<Card>
+		<Card className={cn('', className)}>
 			<CardHeader>
 				<CardTitle>Cadeiras</CardTitle>
 			</CardHeader>
@@ -35,12 +34,12 @@ export default function Cadeiras() {
 							{cadeira}
 							<XIcon
 								role="button"
-								className="w-4 h-4 text-muted-foreground hover:text-primary-foreground transition-colors"
+								className="w-4 h-4 text-primary-foreground/40 hover:text-primary-foreground/80 transition-colors"
 								onClick={() => handleDelete(cadeira)}
 							/>
 						</span>
 					))}
-					<AddCadeira cadeiras={cadeiras} setCadeiras={setCadeiras} />
+					<AddCadeira />
 				</div>
 			</CardContent>
 		</Card>
