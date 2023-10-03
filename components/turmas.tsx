@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { DataContext, DataContextType, Turma } from '@/context/data-context';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -8,22 +8,28 @@ import { useContext, useEffect } from 'react';
 import { XIcon } from 'lucide-react';
 import AddTurma from './add-turma';
 
-export default function Turmas({ className }: { className: string }) {
-	const { horarios, dias, turmas, setTurmas } = useContext(DataContext) as DataContextType;
+export default function Turmas({ className }: { className?: string }) {
+	const { horarios, dias, cadeiras, turmas, setTurmas, updateSelectedTurma } = useContext(
+		DataContext
+	) as DataContextType;
 
 	useEffect(() => {
 		localStorage.setItem('turmas', JSON.stringify(turmas));
 	}, [turmas]);
 
 	function handleDelete(turma: Turma) {
-		const filteredTurmas = turmas.filter((item) => item !== turma);
-		setTurmas(filteredTurmas);
+		const newTurmas = turmas.filter((item) => item !== turma);
+		setTurmas(newTurmas);
+		if (turma.turma === cadeiras.find((item) => item.name === turma.cadeira)?.selectedTurma) {
+			updateSelectedTurma(turma.cadeira, newTurmas);
+		}
 	}
 
 	return (
 		<Card className={cn('', className)}>
 			<CardHeader>
 				<CardTitle>Turmas</CardTitle>
+				<CardDescription>Adicione as turmas disponíveis para matrícula.</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Table>

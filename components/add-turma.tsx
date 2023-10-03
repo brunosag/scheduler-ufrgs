@@ -15,11 +15,13 @@ import * as z from 'zod';
 
 export default function AddTurma() {
 	const [open, setOpen] = useState<boolean>(false);
-	const { horarios, dias, cadeiras, turmas, setTurmas } = useContext(DataContext) as DataContextType;
+	const { horarios, dias, cadeiras, turmas, setTurmas, updateSelectedTurma } = useContext(
+		DataContext
+	) as DataContextType;
 
 	const formSchema = z
 		.object({
-			cadeira: z.string({ required_error: 'Selecione uma cadeira.' }).default(cadeiras[0]),
+			cadeira: z.string({ required_error: 'Selecione uma cadeira.' }).default(cadeiras[0]?.name),
 			turma: z.string({ required_error: 'Insira uma turma.' }),
 			horario: z.string().default(horarios[0].start),
 			dias: z
@@ -38,11 +40,13 @@ export default function AddTurma() {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		setOpen(false);
-		setTurmas(
-			[...turmas, { ...values, turma: values.turma.toUpperCase() }].toSorted(
-				(a, b) => a.cadeira.localeCompare(b.cadeira) || a.turma.localeCompare(b.turma)
-			)
+		const newTurmas = [...turmas, { ...values, turma: values.turma.toUpperCase() }].toSorted(
+			(a, b) => a.cadeira.localeCompare(b.cadeira) || a.turma.localeCompare(b.turma)
 		);
+		setTurmas(newTurmas);
+		if (!cadeiras.find((item) => item.name === values.cadeira)?.selectedTurma) {
+			updateSelectedTurma(values.cadeira, newTurmas);
+		}
 		form.resetField('turma');
 		form.resetField('dias');
 	}
@@ -63,7 +67,7 @@ export default function AddTurma() {
 							name="cadeira"
 							render={({ field }) => (
 								<FormItem>
-									<Select onValueChange={field.onChange} defaultValue={cadeiras[0]} value={field.value}>
+									<Select onValueChange={field.onChange} defaultValue={cadeiras[0].name} value={field.value}>
 										<FormControl>
 											<SelectTrigger>
 												<SelectValue placeholder="Selecionar cadeira..." />
@@ -72,8 +76,8 @@ export default function AddTurma() {
 										<SelectContent>
 											{cadeiras.length > 0 ? (
 												cadeiras.map((cadeira) => (
-													<SelectItem key={cadeira} value={cadeira}>
-														{cadeira}
+													<SelectItem key={cadeira.name} value={cadeira.name}>
+														{cadeira.name}
 													</SelectItem>
 												))
 											) : (

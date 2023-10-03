@@ -24,6 +24,7 @@
 		"next": "latest",
 		"next-themes": "^0.2.1",
 		"react": "latest",
+		"react-component-export-image": "^1.0.6",
 		"react-dom": "latest",
 		"react-hook-form": "^7.46.2",
 		"tailwind-merge": "^1.14.0",

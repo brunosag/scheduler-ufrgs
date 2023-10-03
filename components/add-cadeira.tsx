@@ -1,6 +1,6 @@
 import { Button } from './ui/button';
-import { CheckIcon } from 'lucide-react';
 import { DataContext, DataContextType } from '@/context/data-context';
+import { CheckIcon } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from './ui/input';
 import { PlusIcon } from 'lucide-react';
@@ -13,14 +13,14 @@ import * as z from 'zod';
 
 export default function AddCadeira() {
 	const [open, setOpen] = useState<boolean>(false);
-	const { cadeiras, setCadeiras } = useContext(DataContext) as DataContextType;
+	const { cadeiras, setCadeiras, turmas } = useContext(DataContext) as DataContextType;
 
 	const formSchema = z.object({
 		name: z
 			.string()
 			.min(1, 'Nome da cadeira não pode ser vazio.')
 			.max(16)
-			.refine((name) => !cadeiras.includes(name.toUpperCase()), 'Cadeira já existe.'),
+			.refine((name) => !cadeiras.some((item) => item.name === name), 'Cadeira já existe.'),
 	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -30,7 +30,11 @@ export default function AddCadeira() {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		setOpen(false);
-		setCadeiras([...cadeiras, values.name.toUpperCase()].toSorted());
+		setCadeiras(
+			[...cadeiras, { name: values.name.toUpperCase(), selectedTurma: undefined }].toSorted((a, b) =>
+				a.name.localeCompare(b.name)
+			)
+		);
 		form.reset();
 	}
 
