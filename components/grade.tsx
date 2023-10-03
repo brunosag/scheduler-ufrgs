@@ -32,12 +32,12 @@ export default function Grade({ className }: { className?: string }) {
 	function exportAsJPEG() {
 		if (typeof window !== 'undefined') {
 			import('react-component-export-image').then(({ exportComponentAsJPEG }) => {
-				tableRef.current?.classList.add('w-[1280px]', 'h-[320px]');
+				tableRef.current?.classList.add('!w-[1280px]', '!h-[366px]');
 				exportComponentAsJPEG(tableRef, {
 					fileName: 'horarios',
 					html2CanvasOptions: { backgroundColor: theme === 'dark' ? '#09090b' : '#fff' },
 				});
-				tableRef.current?.classList.remove('w-[1280px]', 'h-[320px]');
+				tableRef.current?.classList.remove('!w-[1280px]', '!h-[366px]');
 			});
 		}
 	}
