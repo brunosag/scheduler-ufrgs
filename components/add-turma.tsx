@@ -67,7 +67,7 @@ export default function AddTurma() {
 							name="cadeira"
 							render={({ field }) => (
 								<FormItem>
-									<Select onValueChange={field.onChange} defaultValue={cadeiras[0].name} value={field.value}>
+									<Select onValueChange={field.onChange} defaultValue={cadeiras[0]?.name} value={field.value}>
 										<FormControl>
 											<SelectTrigger>
 												<SelectValue placeholder="Selecionar cadeira..." />
@@ -76,7 +76,7 @@ export default function AddTurma() {
 										<SelectContent>
 											{cadeiras.length > 0 ? (
 												cadeiras.map((cadeira) => (
-													<SelectItem key={cadeira.name} value={cadeira.name}>
+													<SelectItem key={cadeira.name} value={cadeira.name} className="cursor-pointer">
 														{cadeira.name}
 													</SelectItem>
 												))
@@ -122,7 +122,7 @@ export default function AddTurma() {
 											</FormControl>
 											<SelectContent>
 												{horarios.map((horario) => (
-													<SelectItem key={horario.start} value={horario.start}>
+													<SelectItem key={horario.start} value={horario.start} className="cursor-pointer">
 														{horario.start} <span className="text-foreground/40">-</span> {horario.end}
 													</SelectItem>
 												))}
