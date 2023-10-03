@@ -13,7 +13,7 @@ import * as z from 'zod';
 
 export default function AddCadeira() {
 	const [open, setOpen] = useState<boolean>(false);
-	const { cadeiras, setCadeiras, turmas } = useContext(DataContext) as DataContextType;
+	const { cadeiras, setCadeiras } = useContext(DataContext) as DataContextType;
 
 	const formSchema = z.object({
 		name: z

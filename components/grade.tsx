@@ -6,7 +6,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { DataContext, DataContextType, Turma } from '@/context/data-context';
 import { DownloadIcon } from 'lucide-react';
-import { exportComponentAsJPEG } from 'react-component-export-image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useContext, useEffect, useRef } from 'react';
 import { useTheme } from 'next-themes';
@@ -31,12 +30,16 @@ export default function Grade({ className }: { className?: string }) {
 	}
 
 	function exportAsJPEG() {
-		tableRef.current?.classList.add('w-[1280px]', 'h-[320px]');
-		exportComponentAsJPEG(tableRef, {
-			fileName: 'horarios',
-			html2CanvasOptions: { backgroundColor: theme === 'dark' ? '#09090b' : '#fff' },
-		});
-		tableRef.current?.classList.remove('w-[1280px]', 'h-[320px]');
+		if (typeof window !== 'undefined') {
+			import('react-component-export-image').then(({ exportComponentAsJPEG }) => {
+				tableRef.current?.classList.add('w-[1280px]', 'h-[320px]');
+				exportComponentAsJPEG(tableRef, {
+					fileName: 'horarios',
+					html2CanvasOptions: { backgroundColor: theme === 'dark' ? '#09090b' : '#fff' },
+				});
+				tableRef.current?.classList.remove('w-[1280px]', 'h-[320px]');
+			});
+		}
 	}
 
 	useEffect(() => {
@@ -66,7 +69,7 @@ export default function Grade({ className }: { className?: string }) {
 					</label>
 				</div>
 			</CardHeader>
-			<CardContent className="flex flex-col items-end gap-4">
+			<CardContent className="flex flex-col items-end gap-6">
 				<Table ref={tableRef}>
 					<TableHeader>
 						<TableRow className="hover:bg-transparent">

@@ -9,13 +9,13 @@ import { XIcon } from 'lucide-react';
 import AddTurma from './add-turma';
 
 export default function Turmas({ className }: { className?: string }) {
-	const { horarios, dias, cadeiras, turmas, setTurmas, updateSelectedTurma } = useContext(
+	const { horarios, dias, cadeiras, turmas, setTurmas, updateSelectedTurma, localStorageReady } = useContext(
 		DataContext
 	) as DataContextType;
 
 	useEffect(() => {
-		localStorage.setItem('turmas', JSON.stringify(turmas));
-	}, [turmas]);
+		localStorageReady && localStorage.setItem('turmas', JSON.stringify(turmas));
+	}, [turmas, localStorageReady]);
 
 	function handleDelete(turma: Turma) {
 		const newTurmas = turmas.filter((item) => item !== turma);

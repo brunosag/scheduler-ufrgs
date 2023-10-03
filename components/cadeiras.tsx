@@ -8,11 +8,11 @@ import { XIcon } from 'lucide-react';
 import AddCadeira from './add-cadeira';
 
 export default function Cadeiras({ className }: { className?: string }) {
-	const { cadeiras, setCadeiras } = useContext(DataContext) as DataContextType;
+	const { cadeiras, setCadeiras, localStorageReady } = useContext(DataContext) as DataContextType;
 
 	useEffect(() => {
-		localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
-	}, [cadeiras]);
+		localStorageReady && localStorage.setItem('cadeiras', JSON.stringify(cadeiras));
+	}, [cadeiras, localStorageReady]);
 
 	function handleDelete(cadeira: Cadeira) {
 		const filteredCadeiras = cadeiras.filter((item) => item !== cadeira);

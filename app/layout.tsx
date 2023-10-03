@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import DataProvider from '@/context/data-context';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import Loading from './loading';
 import type { Metadata } from 'next';
 
 import './globals.css';
@@ -19,13 +20,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 		<html lang="en">
 			<body className={inter.className}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-					<div className="flex flex-col h-screen">
-						<Header />
-						<div className="flex-1">
-							<DataProvider>{children}</DataProvider>
+					<DataProvider>
+						<Loading />
+						<div className="flex flex-col h-screen">
+							<Header />
+							<div className="flex-1">{children}</div>
+							<Footer />
 						</div>
-						<Footer />
-					</div>
+					</DataProvider>
 				</ThemeProvider>
 			</body>
 		</html>
