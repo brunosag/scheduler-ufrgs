@@ -18,11 +18,9 @@
     <a href="#contact">Contact</a>
 </p>
 
-
 ## About
 
 Scheduler UFRGS is a scheduling system for courses and classes at UFRGS (Universidade Federal do Rio Grande do Sul). The application allows users to schedule courses and create timetables for their classes using HTML and JavaScript.
-
 
 ## Features
 
@@ -35,7 +33,6 @@ Scheduler UFRGS is a scheduling system for courses and classes at UFRGS (Univers
 - **Image Saving**: Save timetables as JPEG images directly to your device.
 
 - **Data Persistence**: Your courses and schedules are automatically saved in the browser's local storage, ensuring they are preserved even after closing the browser.
-
 
 ## Usage
 
@@ -51,11 +48,9 @@ Upon opening Scheduler UFRGS in your web browser, you will see the main interfac
 
 To remove a course or class, simply click the delete button (X icon) next to it in the corresponding section.
 
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
 
 ## Contact
 
