@@ -19,7 +19,7 @@
 
 ## About
 
-scheduler-ufrgs is a project developed in React, Next.js, TypeScript, and Tailwind CSS that allows UFRGS students to easily and efficiently create their class schedules.
+scheduler-ufrgs is a project developed in Next.js, Tailwind CSS, and TypeScript that allows UFRGS students to easily and efficiently create their class schedules.
 
 https://github.com/brunosag/scheduler-ufrgs/assets/97703272/eb914ed0-cdaf-4d98-a0a2-003851fe787e
 
