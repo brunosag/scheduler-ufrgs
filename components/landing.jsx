@@ -7,16 +7,11 @@ import { useContext, useState } from 'react';
 import LogoIcon from './logo-icon';
 
 export default function Landing({ cursos }) {
-  const { setSelectedCurso, setLoading, setLoadingMessage } = useContext(AppContext);
+  const { setSelectedCurso, setLoading } = useContext(AppContext);
   const [value, setValue] = useState(null);
 
   function handlePress() {
     setSelectedCurso(value);
-    setLoadingMessage('Carregando horários');
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
   }
 
   return (
@@ -35,8 +30,8 @@ export default function Landing({ cursos }) {
           onSelectionChange={setValue}
         >
           {cursos.map((curso) => (
-            <AutocompleteItem key={curso.id} value={curso.id}>
-              {curso.name}
+            <AutocompleteItem key={curso._id} value={curso._id}>
+              {curso.nome}
             </AutocompleteItem>
           ))}
         </Autocomplete>

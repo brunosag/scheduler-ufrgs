@@ -1,20 +1,10 @@
-import { getPortal } from '@/lib/server';
+import clientPromise from '@/lib/mongodb';
 
 export async function GET() {
-  const { browser, page } = await getPortal();
+  const client = await clientPromise;
+  const db = client.db('db');
 
-  let data = [];
-  const expires = Date.now() + 24 * 60 * 60 * 1000;
-  try {
-    const selectElement = await page.$('#selecionado');
-    data = await selectElement.$$eval('option', (options) =>
-      options.slice(1).map((option) => ({ id: option.value, name: option.textContent.trim() }))
-    );
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await browser.close();
-  }
+  const cursos = await db.collection('cursos').find().toArray();
 
-  return Response.json({ data, expires });
+  return Response.json(cursos);
 }
