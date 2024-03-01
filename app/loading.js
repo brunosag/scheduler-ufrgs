@@ -13,7 +13,7 @@ export default function Loading() {
     <div
       className={cn(
         loading ? 'opacity-100' : 'opacity-0 pointer-events-none',
-        'fixed inset-0 bg-background w-screen h-screen flex flex-col gap-5 items-center justify-center transition-opacity !duration-300 z-50'
+        'fixed inset-0 bg-background w-screen h-screen flex flex-col gap-5 items-center justify-center z-50'
       )}
     >
       <LogoIcon className="h-20 w-20" />
