@@ -3,17 +3,19 @@
 	import { cn } from '$lib/utils';
 	import { cursos, selectedCurso as selectedCursoStore } from '$lib/stores';
 	import { onMount, tick } from 'svelte';
+	import { SelectCursoConfirm } from '$components/select-curso';
 	import * as Command from '$components/ui/command';
 	import * as Popover from '$components/ui/popover';
 	import CheckIcon from 'lucide-svelte/icons/check';
 	import ChevronsIcon from 'lucide-svelte/icons/chevrons-up-down';
-	import SelectCursoConfirm from './select-curso-confirm.svelte';
+
+	export let header: boolean = false;
 
 	const triggerId = 'curso-trigger';
 
 	let open: boolean = false;
-	let selectedCurso: Curso | undefined = undefined;
-	let triggerWidth: number = 0;
+	let selectedCurso: Curso | undefined = $selectedCursoStore;
+	let triggerWidth: number;
 
 	onMount(() => {
 		observeTriggerWidth();
@@ -44,7 +46,12 @@
 	}
 
 	function selectCurso(curso: Curso) {
-		selectedCurso = selectedCurso?.value !== curso.value ? curso : undefined;
+		if (header) {
+			selectedCurso = curso;
+			confirmSelection();
+		} else {
+			selectedCurso = selectedCurso?.value !== curso.value ? curso : undefined;
+		}
 		closePopover();
 	}
 
@@ -53,7 +60,7 @@
 	}
 </script>
 
-<div class="flex w-full min-w-72 max-w-[32rem] gap-2">
+<div class={cn('flex w-full min-w-72 max-w-[35rem] gap-2', header && 'min-w-64 max-w-[24rem]')}>
 	<Popover.Root bind:open>
 		<Popover.Trigger asChild let:builder>
 			<Button
@@ -62,13 +69,18 @@
 				variant="outline"
 				role="combobox"
 				aria-expanded={open}
-				class="flex w-full min-w-0 grow justify-between gap-2 px-5 py-3"
+				class={cn('flex min-w-0 grow justify-between gap-3 truncate px-5 py-3', header && 'py-2')}
 			>
-				<span
-					class={cn('w-full truncate text-left font-light', !selectedCurso && 'text-foreground/80')}
-				>
-					{selectedCurso?.nome || 'Selecione seu curso'}
-				</span>
+				<div class="relative h-5 grow text-left">
+					<span
+						class={cn(
+							'absolute w-full truncate font-light',
+							!selectedCurso && 'text-foreground/80'
+						)}
+					>
+						{selectedCurso?.nome || 'Selecione seu curso'}
+					</span>
+				</div>
 				<ChevronsIcon class="h-4 w-4 opacity-50" />
 			</Button>
 		</Popover.Trigger>
@@ -97,7 +109,7 @@
 		</Popover.Content>
 	</Popover.Root>
 
-	{#if selectedCurso}
+	{#if selectedCurso && !header}
 		<SelectCursoConfirm on:confirm={confirmSelection} />
 	{/if}
 </div>
