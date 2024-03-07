@@ -4,7 +4,7 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 export type Cadeira = {
 	name: string;
-	selectedTurma: string | undefined;
+	selectedTurma: string | undefined | null;
 };
 
 export type Turma = {

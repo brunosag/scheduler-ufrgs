@@ -23,11 +23,17 @@ export default function Grade({ className }: { className?: string }) {
 	}
 
 	function selectTurma(turma: Turma) {
-		const newCadeiras = cadeiras.map((item) =>
-			item.name === turma.cadeira ? { name: item.name, selectedTurma: turma.turma } : item
-		);
-		setCadeiras(newCadeiras);
-	}
+    const updatedCadeiras = cadeiras.map((item) => {
+      if (item.name === turma.cadeira) {
+        return {
+          ...item,
+          selectedTurma: item.selectedTurma === turma.turma ? null : turma.turma,
+        };
+      }
+      return item;
+    });
+    setCadeiras(updatedCadeiras);
+  };
 
 	function exportAsJPEG() {
 		if (typeof window !== 'undefined') {
